@@ -78,8 +78,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`ORGANISATION` (
   `type` ENUM('institution','department','laboratory','researchteam') NULL DEFAULT NULL,
   `url` VARCHAR(255) NULL DEFAULT NULL,
   `structID` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`organisationID`),
-  UNIQUE INDEX `structID_UNIQUE` (`structID` ASC))
+  PRIMARY KEY (`organisationID`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
@@ -127,9 +126,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `anhalytics`.`AUTHOR`
+-- Table `anhalytics`.`AUTHORSHIP`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `anhalytics`.`AUTHOR` (
+CREATE TABLE IF NOT EXISTS `anhalytics`.`AUTHORSHIP` (
   `docID` VARCHAR(45) NOT NULL,
   `personID` INT(11) NOT NULL DEFAULT '0',
   `rank` INT(11) NULL DEFAULT NULL,
@@ -326,9 +325,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `anhalytics`.`EDITOR`
+-- Table `anhalytics`.`EDITORSHIP`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `anhalytics`.`EDITOR` (
+CREATE TABLE IF NOT EXISTS `anhalytics`.`EDITORSHIP` (
   `rank` INT(11) NULL DEFAULT NULL,
   `personID` INT(11) NULL DEFAULT NULL,
   `publicationID` INT(11) NULL DEFAULT NULL,
@@ -445,6 +444,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`ORGANISATION_NAME` (
   `organisation_nameID` INT(11) NOT NULL AUTO_INCREMENT,
   `organisationID` INT(11) NOT NULL,
   `name` VARCHAR(150) NULL DEFAULT NULL,
+  `publication_date` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`organisation_nameID`),
   INDEX `fk_ORGANISATION_NAME_ORGANISATION1_idx` (`organisationID` ASC),
   CONSTRAINT `fk_ORGANISATION_NAME_ORGANISATION1`
@@ -512,6 +512,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`PERSON_NAME` (
   `middlename` VARCHAR(45) NULL DEFAULT NULL,
   `surname` VARCHAR(150) NULL DEFAULT NULL,
   `title` VARCHAR(45) NULL DEFAULT NULL,
+  `publication_date` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`person_nameID`),
   INDEX `fk_PERSON_NAME_PERSON1_idx` (`personID` ASC),
   CONSTRAINT `fk_PERSON_NAME_PERSON1`
