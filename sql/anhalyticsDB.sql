@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`COUNTRY` (
   PRIMARY KEY (`countryID`),
   UNIQUE INDEX `ISO_UNIQUE` (`ISO` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -50,7 +49,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`ADDRESS` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -66,7 +64,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`PERSON` (
   `phone` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`personID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -75,12 +72,12 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `anhalytics`.`ORGANISATION` (
   `organisationID` INT(11) NOT NULL AUTO_INCREMENT,
-  `type` ENUM('institution','department','laboratory','researchteam') NULL DEFAULT NULL,
+  `type` ENUM('institution', 'department', 'laboratory', 'researchteam') NULL DEFAULT NULL,
   `url` VARCHAR(255) NULL DEFAULT NULL,
   `structID` VARCHAR(45) NULL DEFAULT NULL,
+  `status` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`organisationID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -94,6 +91,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`AFFILIATION` (
   `begin_date` DATE NULL DEFAULT NULL,
   `end_date` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`affiliationID`),
+  UNIQUE INDEX `index4` (`organisationID` ASC, `personID` ASC, `begin_date` ASC),
   INDEX `fk_table1_STRUTURE1_idx` (`organisationID` ASC),
   INDEX `fk_table1_PERSON1_idx` (`personID` ASC),
   CONSTRAINT `fk_table1_PERSON1`
@@ -107,7 +105,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`AFFILIATION` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -121,7 +118,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`DOCUMENT` (
   PRIMARY KEY (`docID`),
   UNIQUE INDEX `URI_UNIQUE` (`URI` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -157,7 +153,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`COLLECTION` (
   `title` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`collectionID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -169,7 +164,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`CONFERENCE` (
   `title` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`conferenceID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -183,7 +177,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`MONOGRAPH` (
   `shortname` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`monographID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -217,7 +210,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`CONFERENCE_EVENT` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -230,13 +222,13 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`DOCUMENT_IDENTIFIER` (
   `ID` VARCHAR(150) NULL DEFAULT NULL,
   `Type` VARCHAR(55) NULL DEFAULT NULL,
   PRIMARY KEY (`document_identifierID`),
+  INDEX `fk_IDENTIFIERS_DOCUMENT1` (`docID` ASC),
   CONSTRAINT `fk_IDENTIFIERS_DOCUMENT1`
     FOREIGN KEY (`docID`)
     REFERENCES `anhalytics`.`DOCUMENT` (`docID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -244,11 +236,12 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `anhalytics`.`DOCUMENT_ORGANISATION`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `anhalytics`.`DOCUMENT_ORGANISATION` (
-  `type` ENUM('institution','department','laboratory','researchteam') NULL DEFAULT NULL,
+  `type` ENUM('institution', 'department', 'laboratory', 'researchteam') NULL DEFAULT NULL,
   `docID` VARCHAR(45) NOT NULL,
   `organisationID` INT(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`organisationID`, `docID`),
   INDEX `fk_DOC_structure_structure1_idx` (`organisationID` ASC),
+  INDEX `fk_DOC_structure_document1` (`docID` ASC),
   CONSTRAINT `fk_DOC_structure_document1`
     FOREIGN KEY (`docID`)
     REFERENCES `anhalytics`.`DOCUMENT` (`docID`)
@@ -281,7 +274,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`PUBLISHER` (
   `name` VARCHAR(150) NULL DEFAULT NULL,
   PRIMARY KEY (`publisherID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -304,6 +296,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`PUBLICATION` (
   PRIMARY KEY (`publicationID`),
   INDEX `fk_PUBLICATION_MONOGRAPH1_idx` (`monographID` ASC),
   INDEX `fk_PUBLICATION_PUBLISHER1_idx` (`publisherID` ASC),
+  INDEX `fk_PUBLICATION_DOCUMENT1` (`docID` ASC),
   CONSTRAINT `fk_PUBLICATION_DOCUMENT1`
     FOREIGN KEY (`docID`)
     REFERENCES `anhalytics`.`DOCUMENT` (`docID`)
@@ -320,7 +313,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`PUBLICATION` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -355,7 +347,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`JOURNAL` (
   `title` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`journalID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -401,6 +392,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`LOCATION` (
   `begin_date` DATE NULL DEFAULT NULL,
   `end_date` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`locationID`),
+  UNIQUE INDEX `index4` (`organisationID` ASC, `addressID` ASC, `begin_date` ASC),
   INDEX `fk_ADRESS_has_ORGANISATION_ORGANISATION1_idx` (`organisationID` ASC),
   INDEX `fk_ADRESS_has_ORGANISATION_ADRESS1_idx` (`addressID` ASC),
   CONSTRAINT `fk_ADRESS_has_ORGANISATION_ADRESS1`
@@ -414,7 +406,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`LOCATION` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -425,7 +416,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`MONOGRAPH_IDENTIFIER` (
   `monograph_identifierID` INT(11) NOT NULL AUTO_INCREMENT,
   `monographID` INT(11) NULL DEFAULT NULL,
   `ID` VARCHAR(45) NULL DEFAULT NULL,
-  `Type` ENUM('hal','arxiv','doi') NULL DEFAULT NULL COMMENT 'journal \nproceedings\ncollection\nbook\nphd_thesis\nmaster_thesis\nreport\narchive',
+  `Type` ENUM('hal', 'arxiv', 'doi') NULL DEFAULT NULL COMMENT 'journal \nproceedings\ncollection\nbook\nphd_thesis\nmaster_thesis\nreport\narchive',
   PRIMARY KEY (`monograph_identifierID`),
   INDEX `fk_MONOGRAPH_IDENTIFIER_MONOGRAPH1_idx` (`monographID` ASC),
   CONSTRAINT `fk_MONOGRAPH_IDENTIFIER_MONOGRAPH1`
@@ -446,6 +437,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`ORGANISATION_NAME` (
   `name` VARCHAR(150) NULL DEFAULT NULL,
   `publication_date` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`organisation_nameID`),
+  UNIQUE INDEX `index3` (`organisationID` ASC, `name` ASC, `publication_date` ASC),
   INDEX `fk_ORGANISATION_NAME_ORGANISATION1_idx` (`organisationID` ASC),
   CONSTRAINT `fk_ORGANISATION_NAME_ORGANISATION1`
     FOREIGN KEY (`organisationID`)
@@ -453,7 +445,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`ORGANISATION_NAME` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -465,6 +456,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`PART_OF` (
   `organisationID` INT(11) NOT NULL,
   `begin_date` DATE NULL DEFAULT NULL,
   `end_date` DATE NULL DEFAULT NULL,
+  UNIQUE INDEX `index3` (`organisationID` ASC, `begin_date` ASC, `organisation_motherID` ASC),
   INDEX `fk_incorporation_structure1_idx` (`organisation_motherID` ASC),
   INDEX `fk_incorporation_structure2_idx` (`organisationID` ASC),
   CONSTRAINT `fk_incorporation_structure1`
@@ -490,6 +482,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`PERSON_IDENTIFIER` (
   `ID` VARCHAR(150) NOT NULL,
   `Type` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`person_identifierID`),
+  UNIQUE INDEX `index3` (`personID` ASC, `ID` ASC, `Type` ASC),
   INDEX `fk_PERSON_IDENTIFIERS_PERSON1_idx` (`personID` ASC),
   CONSTRAINT `fk_PERSON_IDENTIFIERS_PERSON1`
     FOREIGN KEY (`personID`)
@@ -497,7 +490,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`PERSON_IDENTIFIER` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -514,6 +506,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`PERSON_NAME` (
   `title` VARCHAR(45) NULL DEFAULT NULL,
   `publication_date` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`person_nameID`),
+  UNIQUE INDEX `index3` (`personID` ASC, `publication_date` ASC),
   INDEX `fk_PERSON_NAME_PERSON1_idx` (`personID` ASC),
   CONSTRAINT `fk_PERSON_NAME_PERSON1`
     FOREIGN KEY (`personID`)
@@ -521,7 +514,6 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`PERSON_NAME` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -580,14 +572,13 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `anhalytics`.`SERIAL_IDENTIFIER` (
   `serial_identifierID` INT(11) NOT NULL AUTO_INCREMENT,
   `ID` VARCHAR(45) NULL DEFAULT NULL,
-  `Type` ENUM('hal','arxiv','doi') NULL DEFAULT NULL COMMENT 'journal \nproceedings\ncollection\nbook\nphd_thesis\nmaster_thesis\nreport\narchive',
+  `Type` ENUM('hal', 'arxiv', 'doi') NULL DEFAULT NULL COMMENT 'journal \nproceedings\ncollection\nbook\nphd_thesis\nmaster_thesis\nreport\narchive',
   `journalID` INT(11) NULL DEFAULT NULL,
   `collectionID` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`serial_identifierID`),
   INDEX `fk_SERIAL_IDENTIFIER_JOURNAL1_idx` (`journalID` ASC),
   INDEX `fk_SERIAL_IDENTIFIER_COLLECTION1_idx` (`collectionID` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8;
 
 

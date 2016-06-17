@@ -184,6 +184,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics_biblio`.`PUBLICATION` (
   PRIMARY KEY (`publicationID`),
   INDEX `fk_PUBLICATION_MONOGRAPH1_idx` (`monographID` ASC),
   INDEX `fk_PUBLICATION_PUBLISHER1_idx` (`publisherID` ASC),
+  INDEX `fk_PUBLICATION_DOCUMENT1` (`docID` ASC),
   CONSTRAINT `fk_PUBLICATION_DOCUMENT1`
     FOREIGN KEY (`docID`)
     REFERENCES `anhalytics_biblio`.`DOCUMENT` (`docID`)
