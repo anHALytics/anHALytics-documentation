@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`ORGANISATION` (
   `organisationID` INT(11) NOT NULL AUTO_INCREMENT,
   `type` ENUM('institution', 'department', 'laboratory', 'researchteam') NULL DEFAULT NULL,
   `url` VARCHAR(255) NULL DEFAULT NULL,
-  `structID` VARCHAR(45) NULL DEFAULT NULL,
+  `struct` VARCHAR(45) NULL DEFAULT NULL,
   `status` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`organisationID`))
 ENGINE = InnoDB
@@ -222,6 +222,7 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`DOCUMENT_IDENTIFIER` (
   `ID` VARCHAR(150) NULL DEFAULT NULL,
   `Type` VARCHAR(55) NULL DEFAULT NULL,
   PRIMARY KEY (`document_identifierID`),
+  UNIQUE INDEX `index3` (`docID` ASC, `ID` ASC, `Type` ASC),
   INDEX `fk_IDENTIFIERS_DOCUMENT1` (`docID` ASC),
   CONSTRAINT `fk_IDENTIFIERS_DOCUMENT1`
     FOREIGN KEY (`docID`)
@@ -422,6 +423,26 @@ CREATE TABLE IF NOT EXISTS `anhalytics`.`MONOGRAPH_IDENTIFIER` (
   CONSTRAINT `fk_MONOGRAPH_IDENTIFIER_MONOGRAPH1`
     FOREIGN KEY (`monographID`)
     REFERENCES `anhalytics`.`MONOGRAPH` (`monographID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `anhalytics`.`ORGANISATION_IDENTIFIER`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `anhalytics`.`ORGANISATION_IDENTIFIER` (
+  `organisation_identifierID` INT(11) NOT NULL AUTO_INCREMENT,
+  `organisationID` INT(11) NOT NULL,
+  `ID` VARCHAR(150) NULL DEFAULT NULL,
+  `Type` VARCHAR(55) NULL DEFAULT NULL,
+  PRIMARY KEY (`organisation_identifierID`),
+  UNIQUE INDEX `index3` (`organisationID` ASC, `ID` ASC, `Type` ASC),
+  INDEX `fk_IDENTIFIERS_DOCUMENT1` (`organisationID` ASC),
+  CONSTRAINT `fk_IDENTIFIERS_ORGANISATION1`
+    FOREIGN KEY (`organisationID`)
+    REFERENCES `anhalytics`.`ORGANISATION` (`organisationID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
