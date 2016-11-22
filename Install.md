@@ -14,23 +14,23 @@ Clone the current project from github (as of March 2016, GROBID version 0.4.1-SN
 
 	git clone https://github.com/kermitt2/grobid.git
 
-AnHALytics uses GROBID as a service so that we can use distribution and multithreaded process easily. See the [GROBID documentation](http://grobid.readthedocs.org) on how to start the RESTful service.
+AnHALytics uses GROBID as a service which allows to distribute the process and exploit multithreading easily. See the [GROBID documentation](http://grobid.readthedocs.org) on how to start the RESTful service.
 
 ### 3. (N)ERD - Entity Recognition and Disambiguisation
 
-Our (N)ERD service annotates the text by recognizing and disambiguating terms. Entities are currently identified against Wikipedia/FreeBase. In this project, the (N)ERD is using the free disambiguation service, and the recognition and disambiguation is not constrained by a preliminary Named Entity Recognition. 
+Our (N)ERD service annotates the text by recognizing and disambiguating terms in context. Entities are currently identified against Wikipedia. In this project, the (N)ERD is using the free disambiguation service - the recognition and disambiguation is not constrained by a preliminary Named Entity Recognition. 
 
 At the present date, only the NER part of the NERD is available in open source (see [grobid-ner](https://github.com/kermitt2/grobid-ner). The full NERD repo will be made publicly available on GitHub soon under Apache 2 license. 
 
 ### 4. Keyterm extraction and disambiguation 
 
-This key term extraction service is based on the [keyphrase extraction tool](http://www.aclweb.org/anthology/S10-1055) developed and ranked first at [SemEval-2010, task 5 - Automatic Keyphrase Extraction from Scientific Articles](http://www.aclweb.org/anthology/S10-1004). _Term_ in this context has to be understood as a complex technical term, e.g. a phrase having a specialized meaning given a technical or scientific field. In addition to key term extraction, the weighted vector of terms is disambiguated by the above (N)ERD service, resulting in a weighted list of Wikipedia topics.  
+This keyphrase, key concept and category extraction service is based on the [keyphrase extraction tool](http://www.aclweb.org/anthology/S10-1055) developed and ranked first at [SemEval-2010, task 5 - Automatic Keyphrase Extraction from Scientific Articles](http://www.aclweb.org/anthology/S10-1004). _Term_ in this context has to be understood as a complex technical term, e.g. a phrase having a specialized meaning given a technical or scientific field. In addition to key term extraction, the weighted vector of terms is disambiguated by the above (N)ERD service, resulting in a weighted list of Wikipedia concepts (i.e. Wikipedia articles) and a list of Wikipedia categories is provided.  
 
-The full NERD repo will be made publicly available on GitHub soon under Apache 2 license. 
+The Keyterm extraction repo will be made publicly available on GitHub soon under Apache 2 license. 
 
 ### 5. ElasticSearch
 
-[Elasticsearch](https://github.com/elastic/elasticsearch) is a distributed RESTful search engine. Specify (and adapt if you want more shards and replicas) the following in the ElasticSearch config file (elasticsearch.yml):
+[Elasticsearch](https://github.com/elastic/elasticsearch) is a distributed RESTful search engine. Specify (and adjust, if you want more shards and replicas) the following in the ElasticSearch config file (```elasticsearch.yml```):
 
     cluster.name: traces # or something else
     index.number_of_shards: 1
@@ -74,15 +74,16 @@ After cloning the repository, compile and build using maven:
 
 After the compilation you'll find the jar produced for each module under ``MODULE/target``.
 
-You need to customize the configuration :
+You need to customize the configuration:
 
     ./anhalytics.sh --configure
 
-Then to import the relational database schema use :
+Then to import the relational database schema use:
 
     ./anhalytics.sh --prepare
 
-Make sure all the required service are up..
+Make sure all the required service are up.
+
 ## Components
 
 ### 1. Harvesting
@@ -148,7 +149,7 @@ We use MongoDD GridFS component for document file support. Each type of files ar
 
 ### 2. Annotation
 
-Once the working TEI collection is set, we could start as a first step to extract named entities and compute keyterms from the downloaded documents, that's the purpose of the anhalytics-annotate sub-project : 
+Once the working TEI collection is set, we can start to enrich the documents with our text mining components: extraction of named entities and computation of keyterms (aka free keyphrase extraction), key concepts (Wikipedia articles) and key categories (Wikipedia catgories) from the downloaded documents. This is the purpose of the anhalytics-annotate sub-project: 
 
     > cd anhalytics-annotate
 
@@ -164,7 +165,7 @@ For launching the full annotation of all the documents using all the available a
 
     > java -Xmx2048m -jar target/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateAll
 
-(```-multiThread``` option is recommended, it takes time)
+(```-multiThread``` option is recommended in general in order to activate parallel processing for document annotation, due to the size of the document repository)
 
 #### Annotation of the HAL collection with the (N)ERD service
 
@@ -172,7 +173,7 @@ The annotation of the sub-project ``anhalytics-annotate/``:
 
     > java -Xmx2048m -jar target/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateAllNerd
 
-(```-multiThread``` option is recommended. this activates parallel processing )
+(```-multiThread``` option is recommended)
 
 #### Annotation of the HAL collection with the KeyTerm extraction and disambiguation service
 
@@ -180,15 +181,15 @@ The annotation on the HAL collection can be launch with the command in the main 
 
     > java -Xmx2048m -jar target/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateAllKeyTerm
 
-(```-multiThread``` option is recommended, it takes time)
+(```-multiThread``` option is recommended)
 
 #### Storage of annotations
 
-Annotations are persistently stored in a MongoDB collection and available for indexing in ElasticSearch. 
+Annotations are persistently stored in a MongoDB collection and available for indexing by ElasticSearch. 
 
 ### 3. KB
 
-The knowledge base is built using mysql, all the metadata at our disposal is extracted and saved in a relational database following this data model https://github.com/anHALytics/documentation/blob/master/model/anhalyticsDB.png
+The knowledge base is built using MySQL. All the metadata at our disposal are extracted and saved in a relational database following this [data model](https://github.com/anHALytics/documentation/blob/master/model/anhalyticsDB.png).
 
     > cd anhalytics-kb
 
@@ -196,11 +197,11 @@ To see all available options:
 
     > java -Xmx2048m -jar target/anhalytics-kb-<current version>.one-jar.jar -h
 
-To feed the database from the TEI use :
+To create the metadata database from the TEI use:
 
     > java -Xmx2048m -jar target/anhalytics-kb-<current version>.one-jar.jar -exe initKnowledgeBase
 
-Then another database is needed for the bibliographic references extracted with GROBID, to build it use :
+A database for the bibliographic references extracted with GROBID can be built with:
 
     > java -Xmx2048m -jar target/anhalytics-kb-<current version>.one-jar.jar -exe initCitationKnowledgeBase
 
@@ -212,34 +213,33 @@ Move to the subproject:
 
 #### Build all the indexes 
 
-For building all the indexes required by the different freontend applications using all the existing loaded documents, use the following command:
+For building all the indexes required by the different frontend applications, use the following command:
 
-    >java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexAll
+    > java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexAll
 
 For indexing only the data corresponding on a daily basis:
 
-    >java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexDaily
+    > java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexDaily
 
 The following commands make possible to index separately only certain type of data. 
 
 #### Indexing TEI
 
-First, the working TEI documents have to be indexed, ``anhalytics-index/`` is a module made to index data: 
+In the indexing process, the working TEI documents have to be indexed first: 
 
-    >java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexTEI
-
+    > java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexTEI
 
 #### Indexing annotations
 
-For indexing the annotations, in the main directory of the sub-project ``anhalytics-index/``:
+For indexing then the annotations, in the main directory of the sub-project ``anhalytics-index/`` use:
 
-    >java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexAnnotations
+    > java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexAnnotations
 
 #### Indexing the Knowledge Base
 
-For indexing the content of the Knowlkedge Base, in the main directory of the sub-project ``anhalytics-index/``:
+Third, for indexing the content of the Knowlkedge Base, in the main directory of the sub-project ``anhalytics-index/``:
 
-    >java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexKB
+    > java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexKB
 
 
 ### 5. Test
