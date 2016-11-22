@@ -13,11 +13,12 @@
 
 * [Install anHALytics](Install.md)
 
-* [Data models](Data-model.md)
-
-* [Workflows](Workflows.md)
 
 <h3>Developer notes</h3>
+
+* [Data models](Data-models.md)
+
+* [Workflows](Workflows.md)
 
 * [Running anALytics at Inria](Running.md)
 

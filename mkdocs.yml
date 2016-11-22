@@ -1,5 +1,5 @@
 site_name: anHALytics Documentation
-repo_url: https://github.com/anHALytics/anHALytics-documentation/
+repo_url: https://github.com/anHALytics/anHALytics-documentation
 repo_name: GitHub
 theme: readthedocs
 site_description: Documentation for anHALytics
@@ -10,13 +10,8 @@ pages:
 - ['Introduction.md', 'About', 'Introduction']
 - ['References.md', 'About', 'References']
 - ['License.md', 'About', 'License']
-- ['Install-Grobid.md', 'User manual', 'Install GROBID']
-- ['Grobid-service.md', 'User manual', 'GROBID service']
-- ['Grobid-batch.md', 'User manual', 'GROBID batch mode']
-- ['Grobid-docker.md', 'User manual', 'GROBID with containers']
-- ['Grobid-java-library.md', 'User manual', 'Java library']
-- ['TEI-encoding-of-results.md', 'User manual', 'TEI encoding of results']
-- ['Training-the-models-of-Grobid.md', 'User manual', 'Training the GROBID models']
-- ['Evaluation-against-a-PubMedCentral-set.md', 'User manual', 'Evaluation against PubMed Central']
-- ['Recompiling-and-integrating-CRF-libraries.md', 'Developer notes', 'Recompiling CRF libraries']
+- ['Install.md', 'User manual', 'Install anHALytics']
+- ['Data-models.md', 'Developer notes', 'Data models']
+- ['Workflows.md', 'Developer notes', 'Component workflows']
+- ['Running.md', 'Developer notes', 'Running anALytics at Inria']
 

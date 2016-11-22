@@ -1,7 +1,7 @@
 # AnHALytics Core
 
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-[![Documentation Status](https://readthedocs.io/projects/anHALytics/badge/?version=latest)](https://readthedocs.io/projects/anHALytics/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/anhalytics/badge/?version=latest)](https://readthedocs.org/projects/anhalytics/?badge=latest)
 
 AnHALytics is a project aiming at creating an analytic platform for the [HAL research archive](https://hal.archives-ouvertes.fr) or other scientific Open Access repositories, exploring various analytic aspects such as search/discovery, activity and collaboration statistics, trend/technology maps, knowledge graph and data visualization. The project is supported by an [ADT Inria](http://www.inria.fr/en/research/research-teams/technological-development-at-inria) grant and good will :). 
 
