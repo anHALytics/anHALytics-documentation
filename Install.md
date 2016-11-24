@@ -74,11 +74,13 @@ After cloning the repository, compile and build using maven:
 
 After the compilation you'll find the jar produced for each module under ``MODULE/target``.
 
-You need to customize the configuration:
+You need first to customize the configuration:
 
     ./anhalytics.sh --configure
 
-Then to import the relational database schema use:
+This script will propose you the default configuration property values or to enter custom values, and it will finally create the configuration file ```anHALytics-core/config/anhalytics.properties```.
+
+Then for creating the relational database tables for the MySQL databases, use:
 
     ./anhalytics.sh --prepare
 
@@ -139,7 +141,7 @@ The working TEI is generated following this struture
 
 At least the harvested Metadata TEI is necessary to produce the final TEI(the PDF is not always available :( ), it's done using :
 
-> java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe generateTei
+    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe generateTei
 
 #### Document storage and provision
 
