@@ -1,0 +1,26 @@
+# Install and run anHALytics frontend
+
+## Install required javascript libraries
+
+Install first Bower, for instance on Ubuntu 
+
+	> sudo npm install -g bower
+
+Move to the anHALytics-frontend repository, for instance:
+
+	> cd ~/anHALytics-frontend
+
+Then, from there, run bower: 
+
+	> bower install
+
+Required javascript libraries will be installed. 
+
+## Update the configuration
+
+Open with your favorite editor the file ```js/resource/config.js``` and update the parameters, in particular the elasticsearch server host/port (exposing the different indexes built by the module anhalytics-core) and the (N)ERD server host/port for query disambiguation.
+
+## Run the frontend
+
+The front end can then be run in any browser by exposing the project on a web server, or locally by opening the file ```index.html```.
+

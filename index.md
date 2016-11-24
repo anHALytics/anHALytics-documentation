@@ -11,8 +11,9 @@
 
 <h3>User manual</h3>
 
-* [Install anHALytics](Install.md)
+* [Install anHALytics backend](Install-backend.md)
 
+* [Install anHALytics frontend](Install-frontend.md)
 
 <h3>Developer notes</h3>
 

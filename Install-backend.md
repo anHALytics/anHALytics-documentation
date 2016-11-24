@@ -1,4 +1,6 @@
-# Install and build anHALytics
+# Install, build and run anHALytics backend
+
+The anHALytics backend can be run with the anHALytics-core project. It covers the document harvesting, ingestion, annotation and indexing, together with the creation of a Knowledge Base over the whole document collection. 
 
 ## Prerequisites
 
