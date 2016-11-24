@@ -218,6 +218,12 @@ Move to the subproject:
 
     > cd anhalytics-index
 
+#### Set-up the indexes
+
+As first step, the indexes will be initalized with the following command:
+
+    > java -Xmx2048m -jar target/anhalytics-index-0.1-SNAPSHOT.one-jar.jar -exe setup
+
 #### Build all the indexes 
 
 For building all the indexes required by the different frontend applications, use the following command:
