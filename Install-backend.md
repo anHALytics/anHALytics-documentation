@@ -12,7 +12,7 @@ A Java development environment is necessary: [JAVA JDK 1.7 minimum](https://java
 
 [Grobid](https://github.com/kermitt2/grobid) is used as entry point for document digestion, which means extracting metadata and structured full text in ([TEI](http://www.tei-c.org/Guidelines/)). [Grobid](https://github.com/kermitt2/grobid) is a machine learning library for extracting bibliographical information and structured full texts from technical and scientific documents, in particular from PDF. It is distributed under Apache 2 license.
 
-Clone the current project from github (as of March 2016, GROBID version 0.4.1-SNAPSHOT):
+Clone the current project from github (as of November 2016, GROBID version 0.4.2-SNAPSHOT):
 
 	git clone https://github.com/kermitt2/grobid.git
 
