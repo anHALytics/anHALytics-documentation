@@ -32,15 +32,20 @@ The Keyterm extraction repo will be made publicly available on GitHub soon under
 
 [Elasticsearch](https://github.com/elastic/elasticsearch) is a distributed RESTful search engine. Specify (and adjust, if you want more shards and replicas) the following in the ElasticSearch config file (```elasticsearch.yml```):
 
-    cluster.name: traces # or something else
+    cluster.name: anhalytics_cluster2711
     index.number_of_shards: 1
     index.number_of_replicas: 0
     cluster.routing.allocation.disk.threshold_enabled: false
-    cluster.routing.allocation.disk.watermark.low: 95
-    cluster.routing.allocation.disk.watermark.high: 99
     http.jsonp.enable: true
 
-AnHALytics supports currently (April 2016) a version __1.7__ of ElasticSearch, we plan to upgrade to a version 2.* in the next weeks. 
+    http.cors.enabled : true
+    http.cors.allow-origin : "*"
+    http.cors.allow-methods : OPTIONS, HEAD, GET, POST, PUT, DELETE
+    http.cors.allow-headers : X-Requested-With,X-Auth-Token,Content-Type, Content-Length
+
+Note that CORS must be allowed.
+
+AnHALytics supports currently (November 2016) a version __2.4__ of ElasticSearch, we plan to upgrade to a version 5.* in the next weeks. 
 
 ### 6. MongoDB
 
@@ -229,7 +234,7 @@ The following commands make possible to index separately only certain type of da
 
 In the indexing process, the working TEI documents have to be indexed first: 
 
-    > java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexTEI
+    > java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexFulltext
 
 #### Indexing annotations
 
