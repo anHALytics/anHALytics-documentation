@@ -75,7 +75,7 @@ A web application server, such as Tomcat, JBoss or Jetty, is necessary to deploy
 
 anHALytics-core performs the document ingestion, from external harvesting of documents to indexing. It has (so far) six components corresponding to six sub-projects:
 
-0. __common__ contains methods and resources shared by several other components. 
+0. __common__ contains methods and resources shared by the other components. 
 1. __harvest__ performs the document harvesting (PDF and metadata) and the transformations into common TEI representations. 
 2. __annotate__ realises document enrichment, more precisely it disambiguates and annotates entities and key-concepts into the TEI structures.
 3. __kb__ build and update the Knowledge Base (KB) of anHALytics.
