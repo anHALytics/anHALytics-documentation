@@ -38,9 +38,6 @@ The Keyterm extraction repo will be made publicly available on GitHub soon under
     index.number_of_shards: 1
     index.number_of_replicas: 0
     cluster.routing.allocation.disk.threshold_enabled: false
-    http.jsonp.enable: true
-
-    http.max_initial_line_length: 8kb
 
     http.cors.enabled : true
     http.cors.allow-origin : "*"
