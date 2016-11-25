@@ -22,5 +22,5 @@ Open with your favorite editor the file ```js/resource/config.js``` and update t
 
 ## Run the frontend
 
-The front end can then be run in any browser by exposing the project on a web server, or locally by opening the file ```index.html```.
+The front end can then be run in any browser by exposing the project on a web server (for example : [http-server](https://www.npmjs.com/package/http-server)), or locally by opening the file ```index.html```.
 
