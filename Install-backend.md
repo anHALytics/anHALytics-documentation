@@ -40,6 +40,8 @@ The Keyterm extraction repo will be made publicly available on GitHub soon under
     cluster.routing.allocation.disk.threshold_enabled: false
     http.jsonp.enable: true
 
+    http.max_initial_line_length: 8kb
+
     http.cors.enabled : true
     http.cors.allow-origin : "*"
     http.cors.allow-methods : OPTIONS, HEAD, GET, POST, PUT, DELETE
