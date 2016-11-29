@@ -60,6 +60,18 @@ AnHALytics supports currently (November 2016) a version __2.4__ of ElasticSearch
 
 A running instance of [MongoDB](https://www.mongodb.org) is required for document persistence and document provision.
 
+The mongoDB database is constituted of collections where each type of data are stored into groups :
+
+- **metadata_teis** : The harvested publications metadata from the API following TEI format.
+- **pub_annexes** : The downloaded annexes for each publication.
+- **identifiers** : Used to generate a unique identifier(anhalyticsID) for each new publication and link it to all External identifiers.([ObjectID](https://docs.mongodb.com/manual/reference/method/ObjectId/#ObjectIDs-BSONObjectIDSpecification))
+- **binaries** : The corresponding PDF files for the each entry of the metadata TEI.
+- **grobid_teis** : The extracted TEI from the PDFs using [Grobid](https://github.com/kermitt2/grobid).
+- **final_teis** : The working generated TEI following the pattern described below containing both metadata, grobid extraction and in the future, found metadata about the annexes.
+- **nerd_annotations** : Recognized Named entities from the text pieces found in the working TEIs.
+- **keyterm_annotations** : Indexing Keyterms selected from the working TEI.
+- **diagnostic** : Logging of downloading problems and bibliographic data extraction errors using Grobid.
+
 ### Mysql
 
 A running instance of [Mysql](https://www.mysql.fr/) is required for building the knowledge base (relational database).
