@@ -144,7 +144,7 @@ For instance, the process can be configured on a cron table.
 
 #### Grobid processing
 
-Once the document are downloaded, the TEI extrating threads will run automatically. You can also run the process manually with
+Once the document are downloaded, the TEI needs to be extracted. You can run the process with
 
     > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe processGrobid
 
