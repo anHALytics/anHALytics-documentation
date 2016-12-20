@@ -17,6 +17,8 @@
 
 <h3>Developer notes</h3>
 
+* [Description of the annotations/extractions](Annotations.md)
+
 * [Data models](Data-models.md)
 
 * [Workflows](Workflows.md)
