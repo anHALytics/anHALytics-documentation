@@ -62,15 +62,22 @@ A running instance of [MongoDB](https://www.mongodb.org) is required for documen
 
 The mongoDB database is constituted of collections where each type of data are stored into groups :
 
-- **metadata_teis** : The harvested publications metadata from the API following TEI format.
+- **metadata_teis** : The initialised TEI corpus containing at first the harvested publications metadata from the API following TEI format.
 - **pub_annexes** : The downloaded annexes for each publication.
 - **identifiers** : Used to generate a unique identifier(anhalyticsID) for each new publication and link it to all External identifiers.([ObjectID](https://docs.mongodb.com/manual/reference/method/ObjectId/#ObjectIDs-BSONObjectIDSpecification))
 - **binaries** : The corresponding PDF files for the each entry of the metadata TEI.
 - **grobid_teis** : The extracted TEI from the PDFs using [Grobid](https://github.com/kermitt2/grobid).
-- **final_teis** : The working generated TEI following the pattern described below containing both metadata, grobid extraction and in the future, found metadata about the annexes.
+- **metadata_teiswithfulltext** : The TEI corpus with their corresponding fullltext following the pattern described below containing both metadata, grobid extraction and in the future, found metadata about the annexes(used to search all fields by the search engine).
 - **nerd_annotations** : Recognized Named entities from the text pieces found in the working TEIs.
 - **keyterm_annotations** : Indexing Keyterms selected from the working TEI.
 - **diagnostic** : Logging of downloading problems and bibliographic data extraction errors using Grobid.
+
+
+#### Document storage and provision
+
+We use MongoDB GridFS layer for document file support. Each type of files are stored in a different collection. hal tei => hal-tei-collection , binaries => binaries-collection,..., 
+
+<!-- documentation of the collections here !! -->
 
 ### Mysql
 
@@ -150,7 +157,10 @@ Once the document are downloaded, the TEI extrating threads will run automatical
 
 #### TEI building
 
-The working TEI is generated following this struture
+After extracting the entities into an ER database and referencing them in the TEI, to produce the TEI to be indexed appending the available fulltext use :
+
+The TEI is generated following this struture
+    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe appendFulltextTei
 
 ```xml
     <teiCorpus>
@@ -164,15 +174,24 @@ The working TEI is generated following this struture
     </teiCorpus>
 ```
 
-At least the harvested Metadata TEI is necessary to produce the final TEI(the PDF is not always available :( ), it's done using :
+### Knowledge Base Builder
 
-    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe generateTei
+The knowledge base is built using MySQL. All the metadata at our disposal are extracted and saved in a relational database following this [data model](https://github.com/anHALytics/documentation/blob/master/model/anhalyticsDB.png).
 
-#### Document storage and provision
+    > cd anhalytics-kb
 
-We use MongoDB GridFS layer for document file support. Each type of files are stored in a different collection. hal tei => hal-tei-collection , binaries => binaries-collection,..., 
+To see all available options:
 
-<!-- documentation of the collections here !! -->
+    > java -Xmx2048m -jar target/anhalytics-kb-<current version>.one-jar.jar -h
+
+To create the metadata database from the working TEI use:
+
+    > java -Xmx2048m -jar target/anhalytics-kb-<current version>.one-jar.jar -exe initKnowledgeBase
+
+To build a database for the bibliographic references :
+
+    > java -Xmx2048m -jar target/anhalytics-kb-<current version>.one-jar.jar -exe initCitationKnowledgeBase
+
 
 ### Annotating
 
@@ -214,23 +233,7 @@ The annotation on the HAL collection can be launch with the command in the main 
 
 Annotations are persistently stored in a MongoDB collection and available for indexing by ElasticSearch. 
 
-### Knowledge Base Builder
 
-The knowledge base is built using MySQL. All the metadata at our disposal are extracted and saved in a relational database following this [data model](https://github.com/anHALytics/documentation/blob/master/model/anhalyticsDB.png).
-
-    > cd anhalytics-kb
-
-To see all available options:
-
-    > java -Xmx2048m -jar target/anhalytics-kb-<current version>.one-jar.jar -h
-
-To create the metadata database from the working TEI use:
-
-    > java -Xmx2048m -jar target/anhalytics-kb-<current version>.one-jar.jar -exe initKnowledgeBase
-
-To build a database for the bibliographic references :
-
-    > java -Xmx2048m -jar target/anhalytics-kb-<current version>.one-jar.jar -exe initCitationKnowledgeBase
 
 ### Indexing
 
