@@ -12,6 +12,7 @@ pages:
 - ['License.md', 'About', 'License']
 - ['Install-backend.md', 'User manual', 'Install anHALytics backend']
 - ['Install-frontend.md', 'User manual', 'Install anHALytics frontend']
+- ['Annotations.md', 'Developer notes', 'Description of the annotations/extractions']
 - ['Data-models.md', 'Developer notes', 'Data models']
 - ['Workflows.md', 'Developer notes', 'Component workflows']
 - ['Running.md', 'Developer notes', 'Running anALytics at Inria']
