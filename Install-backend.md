@@ -149,6 +149,14 @@ To perform an harvesting on a daily basis, use:
 
 For instance, the process can be configured on a cron table.
 
+#### Harvest a list of specific HAL documents
+
+For harvesting a list of HAL documents based on their HAL ID, use the  following command: 
+
+    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe harvestHalList -list list.txt
+
+where the file ```list.txt``` is a file with one HAL ID per line. 
+
 #### Grobid processing
 
 Once the document are downloaded, the TEI needs to be extracted. You can run the process with
