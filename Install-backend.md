@@ -159,8 +159,9 @@ Once the document are downloaded, the TEI needs to be extracted. You can run the
 
 After extracting the entities into an ER database and referencing them in the TEI, to produce the TEI to be indexed appending the available fulltext use :
 
-The TEI is generated following this struture
     > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe appendFulltextTei
+
+The TEI is generated following this struture: 
 
 ```xml
     <teiCorpus>
