@@ -204,7 +204,7 @@ To build a database for the bibliographic references :
 
 ### Annotating
 
-Once the working TEI collection is set, we can start to enrich the documents with our text mining components: extraction of named entities and computation of keyterms (aka free keyphrase extraction), key concepts (Wikipedia articles) and key categories (Wikipedia catgories) from the downloaded documents. This is the purpose of the anhalytics-annotate sub-project: 
+Once the working TEI collection is set, we can start to enrich the documents with our text mining components: extraction of named entities and computation of keyterms (aka free keyphrase extraction), key concepts (Wikipedia articles), key categories (Wikipedia catgories) and extraction of physical measurements (quantities expressed as single values, intervals or list) from the downloaded documents. This is the purpose of the anhalytics-annotate sub-project: 
 
     > cd anhalytics-annotate
 
@@ -222,7 +222,7 @@ For launching the full annotation of all the documents using all the available a
 
 (```-multiThread``` option is recommended in general in order to activate parallel processing for document annotation, due to the size of the document repository)
 
-#### Annotation of the HAL collection with the (N)ERD service
+#### Annotation of the collection with the (N)ERD service
 
 The annotation of the sub-project ``anhalytics-annotate/``:
 
@@ -230,13 +230,22 @@ The annotation of the sub-project ``anhalytics-annotate/``:
 
 (```-multiThread``` option is recommended)
 
-#### Annotation of the HAL collection with the KeyTerm extraction and disambiguation service
+#### Annotation of the collection with the KeyTerm extraction and disambiguation service
 
-The annotation on the HAL collection can be launch with the command in the main directory of the sub-project ``anhalytics-annotate/``:
+The annotation on the collection can be launch with the command in the main directory of the sub-project ``anhalytics-annotate/``:
 
     > java -Xmx2048m -jar target/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateAllKeyTerm
 
 (```-multiThread``` option is recommended)
+
+#### Annotation of the collection with the physical measurements extraction service
+
+The annotation on the collection can be launch with the command in the main directory of the sub-project ``anhalytics-annotate/``:
+
+    > java -Xmx2048m -jar target/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateAllQuantities
+
+(```-multiThread``` option is __NOT__ recommended for the moment)
+
 
 #### Storage of annotations
 
