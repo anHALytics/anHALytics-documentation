@@ -165,7 +165,7 @@ For harvesting a sample of 120 from different categories (wos/scienceMetrix), us
 #### Metadata transformation
 
 Next comes the metadata tranformation step which consists of having a standard TEI format from the harvested metadata.
-
+(warning : in this step a unique id is generated for the text[title, abstract in the case of the metadata ] and used for text mining purpose in order to keep the association between annotations and the text they are extracted from, once those are indexed)
     > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe transformMetadata
 
 The TEI is generated following this struture: 
@@ -182,6 +182,7 @@ The TEI is generated following this struture:
 #### Grobid processing
 
 Once the document are downloaded, the TEI needs to be extracted. You can run the process with
+(warning : in this step a unique id is generated for the text and used for text mining purpose in order to keep the association between annotations and the text they are extracted from, once those are indexed)
 
     > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe processGrobid
 
