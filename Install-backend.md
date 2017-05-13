@@ -124,7 +124,7 @@ Make sure all the required service are up.
 
     > cd anhalytics-harvest
 
-Currently only OAI-PMH is supported as harvesting protocol (for HAL archive)
+Basically three options are available for harvesting [harvestAll, harvestList, sample]
 
 An executable jar file is produced under the directory ``anhalytics-harvest/target``.
 
@@ -134,18 +134,15 @@ The following command displays the help:
 
 For a large harvesting task, use -Xmx2048m to set the JVM memory to avoid OutOfMemoryException.
 
-#### HarvestAll / HarvestDaily
+#### HarvestAll
 
 To start harvesting all the documents of HAL based on [OAI-PMH](http://www.openarchives.org/pmh) v2, use:
 
-    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe harvestAll
+    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe harvestAll -source
 
+Please refer to the doc about integrating new harvester for other sources [Integrate_harvester](https://github.com/anHALytics/anHALytics-documentation/blob/master/Integrate_harvester.md)
 Harvesting is done through a reverse chronological order, here is a sample of the OAI-PMH request:
 http://api.archives-ouvertes.fr/oai/hal/?verb=ListRecords&metadataPrefix=xml-tei&from=2015-01-14&until=2015-01-14
-
-To perform an harvesting on a daily basis, use:
-
-    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe harvestDaily
 
 For instance, the process can be configured on a cron table.
 
@@ -153,21 +150,23 @@ For instance, the process can be configured on a cron table.
 
 For harvesting a list of HAL documents based on their HAL ID, use the  following command: 
 
-    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe harvestHalList -list list.txt
+    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -source HAL -exe harvestList -list list.txt
 
 where the file ```list.txt``` is a file with one HAL ID per line. 
 
-#### Grobid processing
 
-Once the document are downloaded, the TEI needs to be extracted. You can run the process with
+#### Harvest a sample from Istex corpus
 
-    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe processGrobid
+For harvesting a sample of 120 from different categories (wos/scienceMetrix), use the  following command: 
 
-#### TEI building
+    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -source ISTEX -exe sample
 
-After extracting the entities into an ER database and referencing them in the TEI, to produce the TEI to be indexed appending the available fulltext use :
 
-    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe appendFulltextTei
+#### Metadata transformation
+
+Next comes the metadata tranformation step which consists of having a standard TEI format from the harvested metadata.
+
+    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe transformMetadata
 
 The TEI is generated following this struture: 
 
@@ -175,13 +174,38 @@ The TEI is generated following this struture:
     <teiCorpus>
         <teiHeader>
             <!-- Consolidated harvested metadata, from HAL for example, with entity 
-				(author, affiliation, etc.) disambiguation -->
+                (author, affiliation, etc.) disambiguation -->
+        </teiHeader>
+    </teiCorpus>
+```
+
+#### Grobid processing
+
+Once the document are downloaded, the TEI needs to be extracted. You can run the process with
+
+    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe processGrobid
+
+
+#### Fulltext appending
+
+Once the fulltext is processed with grobid we need to append to the corpus previously created:
+
+    > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe appendFulltextTei
+
+The TEI structure becomes like this : 
+
+```xml
+    <teiCorpus>
+        <teiHeader>
+            <!-- Consolidated harvested metadata, from HAL for example, with entity 
+                (author, affiliation, etc.) disambiguation -->
         </teiHeader>
         <TEI>
             <!-- GROBID automatically extracted data -->
         </TEI>
     </teiCorpus>
 ```
+
 
 ### Knowledge Base Builder
 
@@ -226,7 +250,7 @@ For launching the full annotation of all the documents using all the available a
 
 The annotation of the sub-project ``anhalytics-annotate/``:
 
-    > java -Xmx2048m -jar target/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateAllNerd
+    > java -Xmx2048m -jar target/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateNerd
 
 (```-multiThread``` option is recommended)
 
@@ -234,7 +258,7 @@ The annotation of the sub-project ``anhalytics-annotate/``:
 
 The annotation on the collection can be launch with the command in the main directory of the sub-project ``anhalytics-annotate/``:
 
-    > java -Xmx2048m -jar target/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateAllKeyTerm
+    > java -Xmx2048m -jar target/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateKeyTerm
 
 (```-multiThread``` option is recommended)
 
@@ -242,10 +266,13 @@ The annotation on the collection can be launch with the command in the main dire
 
 The annotation on the collection can be launch with the command in the main directory of the sub-project ``anhalytics-annotate/``:
 
-    > java -Xmx2048m -jar target/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateAllQuantities
+    > java -Xmx2048m -jar target/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateQuantities
 
 (```-multiThread``` option is __NOT__ recommended for the moment)
 
+To annotate the PDF documents :
+
+    > java -Xmx2048m -jar target/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateQuantitiesFromPDF
 
 #### Storage of annotations
 
@@ -271,17 +298,11 @@ For building all the indexes required by the different frontend applications, us
 
     > java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexAll
 
-For indexing only the data corresponding on a daily basis:
-
-    > java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexDaily
-
-The following commands make possible to index separately only certain type of data. 
-
 #### Indexing TEI
 
 In the indexing process, the working TEI documents have to be indexed first: 
 
-    > java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexFulltext
+    > java -Xmx2048m -jar target/anhalytics-index-<current version>.one-jar.jar -exe indexTEI
 
 #### Indexing annotations
 
