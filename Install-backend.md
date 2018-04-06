@@ -54,7 +54,7 @@ The Keyterm extraction repo will be made publicly available on GitHub soon under
 
 Note that CORS must be allowed.
 
-AnHALytics supports currently (November 2016) a version __2.4__ of ElasticSearch, we plan to upgrade to a version 5.* in the next weeks. 
+AnHALytics supports currently (April 2018) a version __5.6.7__ of ElasticSearch.
 
 ### MongoDB
 
@@ -75,7 +75,7 @@ The mongoDB database is constituted of collections where each type of data are s
 
 #### Document storage and provision
 
-We use MongoDB GridFS layer for document file support. Each type of files are stored in a different collection. hal tei => hal-tei-collection , binaries => binaries-collection,..., 
+We use MongoDB GridFS layer for document file support (using WiredTiger is recommended). Each type of files are stored in a different collection. hal tei => hal-tei-collection , binaries => binaries-collection,..., 
 
 <!-- documentation of the collections here !! -->
 
@@ -166,6 +166,7 @@ For harvesting a sample of 120 from different categories (wos/scienceMetrix), us
 
 Next comes the metadata tranformation step which consists of having a standard TEI format from the harvested metadata.
 (warning : in this step a unique id is generated for the text[title, abstract in the case of the metadata ] and used for text mining purpose in order to keep the association between annotations and the text they are extracted from, once those are indexed)
+
     > java -Xmx2048m -jar target/anhalytics-harvest-<current version>.one-jar.jar -exe transformMetadata
 
 The TEI is generated following this struture: 
