@@ -1,6 +1,6 @@
 # Install, build and run anHALytics backend
 
-The anHALytics backend can be run with the anHALytics-core project. It covers the document harvesting, annotating and indexing, together with the creation of a Knowledge Base over the whole document collection.
+The anHALytics backend can be run with the anHALytics-core project. It covers the document harvesting, annotating and indexing, together with the creation of a Knowledge Base over the whole document collection. 
 
 ## Prerequisites
 
@@ -28,15 +28,15 @@ AnHALytics uses GROBID as a service which allows to distribute the process and e
 
 ### (N)ERD - Entity Recognition and Disambiguisation
 
-Our (N)ERD service annotates the text by recognizing and disambiguating terms in context. Entities are currently identified against Wikipedia. In this project, the (N)ERD is using the free disambiguation service - the recognition and disambiguation is not constrained by a preliminary Named Entity Recognition.
+Our (N)ERD service annotates the text by recognizing and disambiguating terms in context. Entities are currently identified against Wikipedia. In this project, the (N)ERD is using the free disambiguation service - the recognition and disambiguation is not constrained by a preliminary Named Entity Recognition. 
 
-At the present date, only the NER part of the NERD is available in open source (see [grobid-ner](https://github.com/kermitt2/grobid-ner). The full NERD repo will be made publicly available on GitHub soon under Apache 2 license.
+At the present date, only the NER part of the NERD is available in open source (see [grobid-ner](https://github.com/kermitt2/grobid-ner). The full NERD repo will be made publicly available on GitHub soon under Apache 2 license. 
 
-### Keyterm extraction and disambiguation
+### Keyterm extraction and disambiguation 
 
 This keyphrase, key concept and category extraction service is based on the [keyphrase extraction tool](http://www.aclweb.org/anthology/S10-1055) developed and ranked first at [SemEval-2010, task 5 - Automatic Keyphrase Extraction from Scientific Articles](http://www.aclweb.org/anthology/S10-1004). _Term_ in this context has to be understood as a complex technical term, e.g. a phrase having a specialized meaning given a technical or scientific field. In addition to key term extraction, the weighted vector of terms is disambiguated by the above (N)ERD service, resulting in a weighted list of Wikipedia concepts (i.e. Wikipedia articles) and a list of Wikipedia categories is provided.  
 
-The Keyterm extraction repo will be made publicly available on GitHub soon under Apache 2 license.
+The Keyterm extraction repo will be made publicly available on GitHub soon under Apache 2 license. 
 
 ### ElasticSearch
 
@@ -75,7 +75,7 @@ The mongoDB database is constituted of collections where each type of data are s
 
 #### Document storage and provision
 
-We use MongoDB GridFS layer for document file support (using WiredTiger is recommended). Each type of files are stored in a different collection. hal tei => hal-tei-collection , binaries => binaries-collection,...,
+We use MongoDB GridFS layer for document file support (using WiredTiger is recommended). Each type of files are stored in a different collection. hal tei => hal-tei-collection , binaries => binaries-collection,..., 
 
 <!-- documentation of the collections here !! -->
 
@@ -91,8 +91,8 @@ A web application server, such as Tomcat, JBoss or Jetty, is necessary to deploy
 
 anHALytics-core performs the document ingestion, from external harvesting of documents to indexing. It has (so far) six components corresponding to six sub-projects:
 
-0. __common__ contains methods and resources shared by the other components.
-1. __harvest__ performs the document harvesting (PDF and metadata) and the transformations into common TEI representations.
+0. __common__ contains methods and resources shared by the other components. 
+1. __harvest__ performs the document harvesting (PDF and metadata) and the transformations into common TEI representations. 
 2. __annotate__ realises document enrichment, more precisely it disambiguates and annotates entities and key-concepts into the TEI structures.
 3. __kb__ build and update the Knowledge Base (KB) of anHALytics.
 4. __index__ performs indexing in ElasticSearch for the final TEI, the annotations and the KB.
@@ -148,7 +148,7 @@ For instance, the process can be configured on a cron table.
 
 #### Harvest a list of specific HAL documents
 
-For harvesting a list of HAL documents based on their HAL ID, use the  following command:
+For harvesting a list of HAL documents based on their HAL ID, use the  following command: 
 
     > java -Xmx2048m -jar build/libs/anhalytics-harvest-<current version>.one-jar.jar -source HAL -exe harvestList -list list.txt
 
@@ -169,12 +169,12 @@ Next comes the metadata tranformation step which consists of having a standard T
 
     > java -Xmx2048m -jar build/libs/anhalytics-harvest-<current version>.one-jar.jar -exe transformMetadata
 
-The TEI is generated following this struture:
+The TEI is generated following this struture: 
 
 ```xml
     <teiCorpus>
         <teiHeader>
-            <!-- Consolidated harvested metadata, from HAL for example, with entity
+            <!-- Consolidated harvested metadata, from HAL for example, with entity 
                 (author, affiliation, etc.) disambiguation -->
         </teiHeader>
     </teiCorpus>
@@ -194,12 +194,12 @@ Once the fulltext is processed with grobid we need to append to the corpus previ
 
     > java -Xmx2048m -jar build/libs/anhalytics-harvest-<current version>.one-jar.jar -exe appendFulltextTei
 
-The TEI structure becomes like this :
+The TEI structure becomes like this : 
 
 ```xml
     <teiCorpus>
         <teiHeader>
-            <!-- Consolidated harvested metadata, from HAL for example, with entity
+            <!-- Consolidated harvested metadata, from HAL for example, with entity 
                 (author, affiliation, etc.) disambiguation -->
         </teiHeader>
         <TEI>
@@ -230,7 +230,7 @@ To build a database for the bibliographic references :
 
 ### Annotating
 
-Once the working TEI collection is set, we can start to enrich the documents with our text mining components: extraction of named entities and computation of keyterms (aka free keyphrase extraction), key concepts (Wikipedia articles), key categories (Wikipedia catgories) and extraction of physical measurements (quantities expressed as single values, intervals or list) from the downloaded documents. This is the purpose of the anhalytics-annotate sub-project:
+Once the working TEI collection is set, we can start to enrich the documents with our text mining components: extraction of named entities and computation of keyterms (aka free keyphrase extraction), key concepts (Wikipedia articles), key categories (Wikipedia catgories) and extraction of physical measurements (quantities expressed as single values, intervals or list) from the downloaded documents. This is the purpose of the anhalytics-annotate sub-project: 
 
     > cd anhalytics-annotate
 
@@ -242,7 +242,7 @@ The following command displays the help:
 
     > java -Xmx2048m -jar build/libs/anhalytics-annotate-<current version>.one-jar.jar -h
 
-For launching the full annotation of all the documents using all the available annotators:
+For launching the full annotation of all the documents using all the available annotators: 
 
     > java -Xmx2048m -jar build/libs/anhalytics-annotate-<current version>.one-jar.jar -multiThread -exe annotateAll
 
@@ -278,13 +278,13 @@ To annotate the PDF documents :
 
 #### Storage of annotations
 
-Annotations are persistently stored in a MongoDB collection and available for indexing by ElasticSearch.
+Annotations are persistently stored in a MongoDB collection and available for indexing by ElasticSearch. 
 
 
 
 ### Indexing
 
-Move to the subproject:
+Move to the subproject: 
 
     > cd anhalytics-index
 
@@ -294,7 +294,7 @@ The indexes will be initalized with the following command:
 
     > java -Xmx2048m -jar build/libs/anhalytics-index-0.1-SNAPSHOT.one-jar.jar -exe setup
 
-#### Build all the indexes
+#### Build all the indexes 
 
 For building all the indexes required by the different frontend applications, use the following command:
 
@@ -302,7 +302,7 @@ For building all the indexes required by the different frontend applications, us
 
 #### Indexing TEI
 
-In the indexing process, the working TEI documents have to be indexed first:
+In the indexing process, the working TEI documents have to be indexed first: 
 
     > java -Xmx2048m -jar build/libs/anhalytics-index-<current version>.one-jar.jar -exe indexTEI
 
