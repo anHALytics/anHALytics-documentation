@@ -2,6 +2,7 @@ site_name: anHALytics Documentation
 repo_url: https://github.com/anHALytics/anHALytics-documentation
 repo_name: GitHub
 site_description: Documentation for anHALytics
+docs_dir: doc/
 plugins:
     - search
 theme:
