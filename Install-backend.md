@@ -98,7 +98,7 @@ anHALytics-core performs the document ingestion, from external harvesting of doc
 4. __index__ performs indexing in ElasticSearch for the final TEI, the annotations and the KB.
 5. __test__ is dedicated to integration tests.
 
-### Build with maven
+### Build with gradle
 
 After cloning the repository, under the main directory `anHALytics-core/`make sur the paths are correct in the configuration properties files `conf/anhalytics.test.properties` then compile and build using maven :
 
@@ -323,7 +323,7 @@ Third, for indexing the content of the Knowlkedge Base, in the main directory of
 The executable for launching the rest service is under the sub-project ``anhalytics-harvest/``
 
     > cd anhalytics-harvest
-		> java -Xmx2048m -jar build/libs/fileprovider-rest-service.jar
+    > java -Xmx2048m -jar build/libs/fileprovider-rest-service.jar
 
 This should start the service on the port specified in ``anhalytics-harvest/src/main/resources/application.properties``
 
