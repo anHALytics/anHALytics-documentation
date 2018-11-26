@@ -1,19 +1,23 @@
 site_name: anHALytics Documentation
 repo_url: https://github.com/anHALytics/anHALytics-documentation
 repo_name: GitHub
-theme: readthedocs
 site_description: Documentation for anHALytics
 docs_dir: .
-include_search: true
+plugins:
+    - search
+theme:
+    name: readthedocs
 pages:
-- ['index.md', 'Home']
-- ['Introduction.md', 'About', 'Introduction']
-- ['References.md', 'About', 'References']
-- ['License.md', 'About', 'License']
-- ['Install-backend.md', 'User manual', 'Install anHALytics backend']
-- ['Install-frontend.md', 'User manual', 'Install anHALytics frontend']
-- ['Annotations.md', 'Developer notes', 'Description of the annotations/extractions']
-- ['Data-models.md', 'Developer notes', 'Data models']
-- ['Workflows.md', 'Developer notes', 'Component workflows']
-- ['Running.md', 'Developer notes', 'Running anALytics at Inria']
-
+  - Home: 'index.md'
+  - About:
+    - Introduction: 'Introduction.md'
+    - References: 'References.md'
+    - License: 'License.md'
+  - User manual:
+    - Install anHALytics backend: 'Install-backend.md'
+    - Install anHALytics frontend: 'Install-frontend.md'
+  - Developer notes:
+      - Description of the annotations/extractions: 'Annotations.md'
+      - Data models: 'Data-models.md'
+      - Component workflows: 'Workflows.md'
+      - Running anHALytics at Inria: 'Running.md'
