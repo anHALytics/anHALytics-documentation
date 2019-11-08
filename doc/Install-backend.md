@@ -138,7 +138,7 @@ For a large harvesting task, use -Xmx2048m to set the JVM memory to avoid OutOfM
 
 To start harvesting all the documents of HAL based on [OAI-PMH](http://www.openarchives.org/pmh) v2, use:
 
-    > java -Xmx2048m -jar build/libs/anhalytics-harvest-<current version>.one-jar.jar -exe harvestAll -source
+    > java -Xmx2048m -jar build/libs/anhalytics-harvest-<current version>.one-jar.jar -exe harvestAll -source hal
 
 Please refer to the doc about integrating new harvester for other sources [Integrate_harvester](https://github.com/anHALytics/anHALytics-documentation/blob/master/Integrate_harvester.md)
 Harvesting is done through a reverse chronological order, here is a sample of the OAI-PMH request:
@@ -167,7 +167,7 @@ For harvesting a sample of 120 from different categories (wos/scienceMetrix), us
 Next comes the metadata tranformation step which consists of having a standard TEI format from the harvested metadata.
 (warning : in this step a unique id is generated for the text[title, abstract in the case of the metadata ] and used for text mining purpose in order to keep the association between annotations and the text they are extracted from, once those are indexed)
 
-    > java -Xmx2048m -jar build/libs/anhalytics-harvest-<current version>.one-jar.jar -exe transformMetadata
+    > java -Xmx2048m -jar build/libs/anhalytics-harvest-<current version>.one-jar.jar -exe transformMetadata -source hal
 
 The TEI is generated following this struture: 
 
