@@ -156,6 +156,7 @@ where the file ```list.txt``` is a file with one HAL ID per line.
 
 
 #### Harvest a sample from Istex corpus
+This applies only if you have access to Istex plateform from your environment.
 
 For harvesting a sample of 120 from different categories (wos/scienceMetrix), use the  following command:
 
