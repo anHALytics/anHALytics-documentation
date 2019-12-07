@@ -22,5 +22,8 @@ Open with your favorite editor the file ```js/resource/config.js``` and update t
 
 ## Run the frontend
 
-The front end can then be run in any browser by exposing the project on a web server (for example : [http-server](https://www.npmjs.com/package/http-server)), or locally by opening the file ```index.html```.
+The frontend can then be run in any browser by exposing the project on a web server (for example : [http-server](https://www.npmjs.com/package/http-server)), or locally by opening the file ```index.html```.
 
+To expose the GUI on a particular port using [http-server](https://www.npmjs.com/package/http-server), run from anHALytics-frontend root :
+
+	> http-server -p 8061 -c-1
