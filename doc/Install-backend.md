@@ -144,6 +144,10 @@ Please refer to the doc about integrating new harvester for other sources [Integ
 Harvesting is done through a reverse chronological order, here is a sample of the OAI-PMH request:
 http://api.archives-ouvertes.fr/oai/hal/?verb=ListRecords&metadataPrefix=xml-tei&from=2015-01-14&until=2015-01-14
 
+To harvest documents submitted in HAL using particular submission date range :
+
+    > java -Xmx2048m -jar build/libs/anhalytics-harvest-<current version>.one-jar.jar -exe harvestAll -source hal -dFromDate <yyyy-mm-dd> -dUntilDate <yyyy-mm-dd>
+
 For instance, the process can be configured on a cron table.
 
 #### Harvest a list of specific HAL documents
